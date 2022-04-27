@@ -1,22 +1,29 @@
 import axios from "axios";
-
-enum Gender {
-  Male = "Male",
-  Female = "Female",
-  Others = "Others",
-}
+import { LoginInterface } from "../ValidateSchema&InitialValues/initialValues";
+axios.defaults.withCredentials = true;
 
 export interface User {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
   gender: "Male" | "Female" | "Others";
-
-  comparePass: (pass: string) => Promise<Boolean>;
 }
 
-export const createNewUser = (body: Partial<User>) => {
+export const createNewUser = (body: User) => {
   return axios.post("http://localhost:4000/api/signup", body);
+};
+
+interface LoginData {
+  data: {
+    auth: boolean;
+  };
+}
+
+export const loggedInInfo = async (): Promise<LoginData> => {
+  return await axios.get("http://localhost:4000/api/me");
+};
+
+export const login = (data: LoginInterface) => {
+  return axios.post("http://localhost:4000/api/login", data);
 };

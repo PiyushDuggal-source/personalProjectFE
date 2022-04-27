@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -18,6 +18,7 @@ import { useState } from "react";
 import { createNewUser } from "../../services/auth.services";
 import { omit } from "lodash";
 import { useNavigate } from "react-router-dom";
+import { LoginInfo } from "../../App";
 
 function Copyright(props: any) {
   return (
@@ -28,7 +29,7 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link className="link" color="inherit" to="https://mui.com/">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -38,6 +39,8 @@ function Copyright(props: any) {
 }
 
 export default function SignUp() {
+  const login = React.useContext(LoginInfo);
+  console.log(login);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: signUpInitialValues,
@@ -214,7 +217,7 @@ export default function SignUp() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link className="link" to="/login">
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -23,3 +23,13 @@ export const signUpInitialValues: User = {
   gender: "Male",
   showPassword: false,
 };
+
+export interface LoginInterface {
+  email: string;
+  password: string;
+}
+
+export const loginInitialValues: LoginInterface = {
+  email: "",
+  password: "",
+};

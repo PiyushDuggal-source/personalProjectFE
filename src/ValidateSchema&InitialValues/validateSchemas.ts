@@ -8,6 +8,8 @@ export const validateSignUpSchema = yup.object().shape({
     .required("This is also required, don't you have a lastName?"),
   email: yup
     .string()
+    .email()
+    .required()
     .required("Hey..., don't you have an EMAIL?? This is so bad!"),
   password: yup
     .string()
@@ -16,4 +18,9 @@ export const validateSignUpSchema = yup.object().shape({
     .string()
     .oneOf(["Male", "Female", "Others"])
     .required("This is extremely required field!"),
+});
+
+export const validateLoginSchema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
 });
