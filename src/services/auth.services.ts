@@ -21,7 +21,9 @@ interface LoginData {
 }
 
 export const loggedInInfo = async (): Promise<LoginData> => {
-  return await axios.get("http://localhost:4000/api/me");
+  return await axios.get("http://localhost:4000/api/me", {
+    withCredentials: true,
+  });
 };
 
 export const login = (data: LoginInterface) => {

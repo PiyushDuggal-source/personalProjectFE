@@ -6,51 +6,97 @@ import { Box } from "../../utils";
 import { BsChat } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { IoCreateOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
 
 import { LoginInfo } from "../../App";
 
 const Navbar = () => {
   const login = useContext(LoginInfo);
+  const spring = {
+    type: "spring",
+    damping: 20,
+    stiffness: 100,
+  };
   return (
     <Nav>
-      <Imsta>
-        <Link className="name" to="/">
-          Imstagram
-        </Link>
-      </Imsta>
+      <motion.div
+        transition={spring}
+        whileHover={{ rotateX: 360, scale: 1.2 }}
+        initial={{ x: -200 }}
+        animate={{ x: 0 }}
+      >
+        <Imsta>
+          <Link className="name" to="/">
+            Imstagram
+          </Link>
+        </Imsta>
+      </motion.div>
       <NavItems>
-        {login ? (
+        {!login ? (
           <>
             <NavItem>
-              <Button variant="text">
-                <Link className="link" to="login">
-                  Login
-                </Link>
-              </Button>
+              <motion.div
+                transition={spring}
+                initial={{ x: +200 }}
+                animate={{ x: 0 }}
+              >
+                <Button variant="text">
+                  <Link className="link" to="login">
+                    Login
+                  </Link>
+                </Button>
+              </motion.div>
             </NavItem>
             <NavItem>
-              <Button variant="text">
-                <Link className="link" to="signup">
-                  SignUp
-                </Link>
-              </Button>
+              <motion.div
+                transition={spring}
+                initial={{ x: +200 }}
+                animate={{ x: 0 }}
+              >
+                <Button variant="text">
+                  <Link className="link" to="signup">
+                    SignUp
+                  </Link>
+                </Button>
+              </motion.div>
             </NavItem>
           </>
         ) : (
           <>
             <NavItem>
               <Link className="link" to="chat">
-                <BsChat size={30}></BsChat>
+                <motion.div
+                  transition={spring}
+                  initial={{ x: +200 }}
+                  animate={{ x: 0 }}
+                  whileHover={{ scale: 1.2 }}
+                >
+                  <BsChat size={30}></BsChat>
+                </motion.div>
               </Link>
             </NavItem>
             <NavItem>
               <Link className="link" to="user">
-                <AiOutlineUser size={30}></AiOutlineUser>
+                <motion.div
+                  transition={spring}
+                  initial={{ x: +200 }}
+                  animate={{ x: 0 }}
+                  whileHover={{ scale: 1.2 }}
+                >
+                  <AiOutlineUser size={30}></AiOutlineUser>
+                </motion.div>
               </Link>
             </NavItem>
             <NavItem>
               <Link className="link" to="create">
-                <IoCreateOutline size={30}></IoCreateOutline>
+                <motion.div
+                  transition={spring}
+                  initial={{ x: +200 }}
+                  animate={{ x: 0 }}
+                  whileHover={{ scale: 1.2 }}
+                >
+                  <IoCreateOutline size={30}></IoCreateOutline>
+                </motion.div>
               </Link>
             </NavItem>
           </>
