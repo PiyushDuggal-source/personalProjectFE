@@ -6,6 +6,11 @@ export const validateSignUpSchema = yup.object().shape({
   lastName: yup
     .string()
     .required("This is also required, don't you have a lastName?"),
+  userName: yup
+    .string()
+    .required(
+      "This is required for you identification, developer (I) needs to idetify you."
+    ),
   email: yup
     .string()
     .email()
@@ -23,4 +28,8 @@ export const validateSignUpSchema = yup.object().shape({
 export const validateLoginSchema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required(),
+});
+
+export const validateCommentSchema = yup.object().shape({
+  comment: yup.string().required(),
 });

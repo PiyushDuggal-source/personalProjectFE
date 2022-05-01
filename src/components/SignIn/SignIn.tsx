@@ -43,15 +43,14 @@ export default function SignIn() {
   const formik = useFormik({
     initialValues: loginInitialValues,
     validationSchema: validateLoginSchema,
-    onSubmit: (values) => {
-      login(values).then((response) => {
-        console.log(response);
-        if (response.data.error) {
-          setError(response.data.error);
-        } else if (response.data.login) {
-          window.location.href = "/";
-        }
-      });
+
+    onSubmit: async (data) => {
+      try {
+        const user = await login(data);
+        console.log(user);
+      } catch (error: any) {
+        console.log(error.response.data.error);
+      }
     },
   });
 
