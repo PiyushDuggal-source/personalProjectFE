@@ -17,6 +17,7 @@ const Navbar = () => {
     damping: 20,
     stiffness: 100,
   };
+  console.log(login)
   return (
     <Nav>
       <motion.div

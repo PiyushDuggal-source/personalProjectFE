@@ -7,6 +7,7 @@ enum Gender {
 export interface User {
   firstName: string;
   lastName: string;
+  userName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -17,6 +18,7 @@ export interface User {
 export const signUpInitialValues: User = {
   firstName: "",
   lastName: "",
+  userName: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -32,4 +34,8 @@ export interface LoginInterface {
 export const loginInitialValues: LoginInterface = {
   email: "",
   password: "",
+};
+
+export const commentInitialValues = {
+  comment: "",
 };

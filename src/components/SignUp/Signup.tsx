@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { BiErrorAlt } from "react-icons/bi";
 import Typography from "@mui/material/Typography";
+import { Alert } from "@mantine/core";
 import Container from "@mui/material/Container";
 import { useFormik } from "formik";
 import { IconButton, MenuItem } from "@mui/material";
@@ -42,13 +44,18 @@ function Copyright(props: any) {
 export default function SignUp() {
   const login = React.useContext(LoginInfo);
   console.log(login);
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: signUpInitialValues,
     validationSchema: validateSignUpSchema,
     onSubmit: (values) => {
       createNewUser(omit(values, ["confirmPassword"])).then((response) => {
-        const { created } = response.data;
+        const { created, error } = response.data;
+        console.log(response);
+        if (error) {
+          setError(error);
+        }
         console.log(created);
         if (created) {
           navigate("/");
@@ -81,6 +88,17 @@ export default function SignUp() {
       animate={{ scale: 1 }}
     >
       <Container className="animate" component="main" maxWidth="xs">
+        {error && (
+          <Alert
+            icon={<BiErrorAlt size={16} />}
+            title="Bummer!"
+            color="red"
+            radius="md"
+            variant="outline"
+          >
+            {error}
+          </Alert>
+        )}
         <CssBaseline />
         <Box
           sx={{
@@ -103,6 +121,22 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="given-name"
+                  name="userName"
+                  required
+                  fullWidth
+                  id="userName"
+                  label="User Name"
+                  value={formik.values.userName}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.userName && Boolean(formik.errors.userName)
+                  }
+                  helperText={formik.touched.userName && formik.errors.userName}
+                />
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -124,7 +158,6 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
                   id="lastName"
                   label="Last Name"
@@ -159,29 +192,18 @@ export default function SignUp() {
               >
                 <TextField
                   fullWidth
+                  required
                   name="password"
                   id="password"
                   type={values ? "text" : "password"}
+                  sx={{ marginRight: 2 }}
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   label="Password"
                 />
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
                 <TextField
                   fullWidth
+                  required
                   name="confirmPassword"
                   id="confirmPassword"
                   type={values ? "text" : "password"}
@@ -200,6 +222,7 @@ export default function SignUp() {
               </Grid>
               <Grid item>
                 <TextField
+                  required
                   sx={{ margin: 1, width: 400 }}
                   select
                   label="Gender"
