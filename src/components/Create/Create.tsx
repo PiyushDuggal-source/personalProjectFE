@@ -6,12 +6,13 @@ const Create = () => {
   const navigate = useNavigate();
   const login = useContext(LoginInfo);
 
+  console.log(login);
   useEffect(() => {
-    if (!login) {
+    if (!login[0]) {
       navigate("/login");
     }
   }, []);
-  return <>{!login ? "Nothing" : "Create"}</>;
+  return <>{!login[0] ? "Nothing" : "Create"}</>;
 };
 
 export default Create;

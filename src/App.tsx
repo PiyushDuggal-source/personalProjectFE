@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       <LoginInfo.Provider value={[login, userName]}>
-        {/* <Navbar /> */}
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />

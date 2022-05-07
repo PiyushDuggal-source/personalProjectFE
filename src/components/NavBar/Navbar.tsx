@@ -7,7 +7,7 @@ import { BsChat } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { IoCreateOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
-
+import { FiLogOut } from "react-icons/fi";
 import { LoginInfo } from "../../App";
 
 const Navbar = () => {
@@ -17,7 +17,7 @@ const Navbar = () => {
     damping: 20,
     stiffness: 100,
   };
-  console.log(login)
+  console.log(login);
   return (
     <Nav>
       <motion.div
@@ -33,7 +33,7 @@ const Navbar = () => {
         </Imsta>
       </motion.div>
       <NavItems>
-        {!login ? (
+        {!login[0] ? (
           <>
             <NavItem>
               <motion.div
@@ -97,6 +97,18 @@ const Navbar = () => {
                   whileHover={{ scale: 1.2 }}
                 >
                   <IoCreateOutline size={30}></IoCreateOutline>
+                </motion.div>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link className="link" to="chat">
+                <motion.div
+                  transition={spring}
+                  initial={{ x: +200 }}
+                  animate={{ x: 0 }}
+                  whileHover={{ scale: 1.2 }}
+                >
+                  <FiLogOut size={30}></FiLogOut>
                 </motion.div>
               </Link>
             </NavItem>

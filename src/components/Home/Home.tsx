@@ -4,8 +4,8 @@ import Spline from "@splinetool/react-spline";
 
 const Home = () => {
   return (
-    <MainContainer style={{ border: "2px solid white" }}>
-      <Spline scene="https://prod.spline.design/IrwsdsLYHRuhUWuo/scene.spline" />
+    <MainContainer>
+      {/* <Spline scene="https://prod.spline.design/IrwsdsLYHRuhUWuo/scene.splin" /> */}
     </MainContainer>
   );
 };
