@@ -19,7 +19,6 @@ function App() {
     };
     getLoginInfo();
   }, []);
-  console.log(login);
   return (
     <>
       <LoginInfo.Provider value={[login, userName]}>

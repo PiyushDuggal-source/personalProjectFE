@@ -24,18 +24,15 @@ const Navbar = () => {
       if (data.logout) {
         window.location.href = "/";
       }
-      console.log(islogout);
     } catch (error: any) {
       console.log(error);
     }
-    console.log("hello");
   };
   const spring = {
     type: "spring",
     damping: 20,
     stiffness: 100,
   };
-  console.log(login);
   return (
     <>
       <Nav>
@@ -45,11 +42,7 @@ const Navbar = () => {
           initial={{ x: -200 }}
           animate={{ x: 0 }}
         >
-          <Imsta>
-            <Link className="name" to="/">
-              Imstagram
-            </Link>
-          </Imsta>
+          <Imsta onClick={() => navigate("/")}>Imstagram</Imsta>
         </motion.div>
         <NavItems>
           {!login[0] ? (
@@ -75,38 +68,40 @@ const Navbar = () => {
                   initial={{ x: +200 }}
                   animate={{ x: 0 }}
                 >
-                  <Link className="link" to="signup">
-                    <Button
-                      sx={{ fontFamily: "'kalam', cursive" }}
-                      variant="text"
-                    >
-                      SignUp
-                    </Button>
-                  </Link>
+                  <Button
+                    sx={{ fontFamily: "'kalam', cursive" }}
+                    onClick={() => navigate("/signup")}
+                    variant="text"
+                  >
+                    SignUp
+                  </Button>
                 </motion.div>
               </NavItem>
             </>
           ) : (
             <>
               <NavItem>
-                <Link className="link" to="chat">
-                  <Tooltip title="Chat" placement="bottom">
-                    <motion.div
-                      transition={spring}
-                      initial={{ x: +200 }}
-                      animate={{ x: 0 }}
-                      whileHover={{ scale: 1.2 }}
-                    >
-                      <BsChat size={30}></BsChat>
-                    </motion.div>
-                  </Tooltip>
-                </Link>
+                <Tooltip title="Chat" placement="bottom">
+                  <motion.div
+                    transition={spring}
+                    initial={{ x: +200 }}
+                    style={{ color: "#90caf9", cursor: "pointer" }}
+                    animate={{ x: 0 }}
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    <BsChat
+                      onClick={() => navigate("/inbox")}
+                      size={30}
+                    ></BsChat>
+                  </motion.div>
+                </Tooltip>
               </NavItem>
               <NavItem>
                 <Tooltip title="Profile" placement="bottom">
                   <motion.div
                     transition={spring}
                     initial={{ x: +200 }}
+                    style={{ color: "#90caf9", cursor: "pointer" }}
                     animate={{ x: 0 }}
                     whileHover={{ scale: 1.2 }}
                   >
@@ -118,18 +113,20 @@ const Navbar = () => {
                 </Tooltip>
               </NavItem>
               <NavItem>
-                <Link className="link" to="create">
-                  <Tooltip title="Create new Post" placement="bottom">
-                    <motion.div
-                      transition={spring}
-                      initial={{ x: +200 }}
-                      animate={{ x: 0 }}
-                      whileHover={{ scale: 1.2 }}
-                    >
-                      <IoCreateOutline size={30}></IoCreateOutline>
-                    </motion.div>
-                  </Tooltip>
-                </Link>
+                <Tooltip title="Create new Post" placement="bottom">
+                  <motion.div
+                    transition={spring}
+                    style={{ color: "#90caf9", cursor: "pointer" }}
+                    initial={{ x: +200 }}
+                    animate={{ x: 0 }}
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    <IoCreateOutline
+                      onClick={() => navigate("/Create")}
+                      size={30}
+                    ></IoCreateOutline>
+                  </motion.div>
+                </Tooltip>
               </NavItem>
               <NavItem>
                 <Tooltip title="Logout" placement="bottom">
@@ -176,6 +173,7 @@ const Imsta = styled(Box)`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 30px;
+  cursor: pointer;
   .name {
     font-family: "Courgette", cursive;
   }
