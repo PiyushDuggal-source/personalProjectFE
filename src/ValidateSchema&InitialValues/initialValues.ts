@@ -39,3 +39,8 @@ export const loginInitialValues: LoginInterface = {
 export const commentInitialValues = {
   comment: "",
 };
+
+export const postInitialValues = {
+  title: "",
+  body: "",
+};

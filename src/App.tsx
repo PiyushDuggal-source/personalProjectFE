@@ -16,6 +16,7 @@ function App() {
     const getLoginInfo = async () => {
       const isLoggedIn = await loggedInInfo();
       setLogin(isLoggedIn.data.auth);
+      setUserName(isLoggedIn.data.userName);
     };
     getLoginInfo();
   }, []);

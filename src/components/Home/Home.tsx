@@ -6,7 +6,15 @@ import PostCard from "../Card/PostCard";
 const Home = () => {
   return (
     <MainContainer>
-      <PostCard/>
+      <PostCard
+        data={{
+          userName: "jissss",
+          title: "",
+          img: "",
+          body: "",
+          likes: "",
+        }}
+      />
       {/* <Spline scene="https://prod.spline.design/IrwsdsLYHRuhUWuo/scene.splin" /> */}
     </MainContainer>
   );

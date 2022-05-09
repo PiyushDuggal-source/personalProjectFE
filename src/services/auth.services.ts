@@ -16,6 +16,7 @@ export const createNewUser = (body: User) => {
 
 interface LoginData {
   data: {
+    userName: string;
     auth: boolean;
   };
 }
