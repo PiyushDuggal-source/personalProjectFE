@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Box } from "../../utils";
@@ -7,109 +7,152 @@ import { BsChat } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { IoCreateOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
-
+import { FiLogOut } from "react-icons/fi";
 import { LoginInfo } from "../../App";
+import { logoutMe } from "../../services/auth.services";
+import Tooltip from "@mui/material/Tooltip";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const login = useContext(LoginInfo);
+  const navigate = useNavigate();
+  const logout = async () => {
+    try {
+      const islogout = await logoutMe();
+      const { data } = islogout;
+
+      if (data.logout) {
+        window.location.href = "/";
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
   const spring = {
     type: "spring",
     damping: 20,
     stiffness: 100,
   };
-  console.log(login)
   return (
-    <Nav>
-      <motion.div
-        transition={spring}
-        whileHover={{ rotateX: 360, scale: 1.2 }}
-        initial={{ x: -200 }}
-        animate={{ x: 0 }}
-      >
-        <Imsta>
-          <Link className="name" to="/">
-            Imstagram
-          </Link>
-        </Imsta>
-      </motion.div>
-      <NavItems>
-        {!login ? (
-          <>
-            <NavItem>
-              <motion.div
-                transition={spring}
-                initial={{ x: +200 }}
-                animate={{ x: 0 }}
-              >
-                <Button variant="text">
-                  <Link className="link" to="login">
+    <>
+      <Nav>
+        <motion.div
+          transition={spring}
+          whileHover={{ rotateX: 360, scale: 1.2 }}
+          initial={{ x: -200 }}
+          animate={{ x: 0 }}
+        >
+          <Imsta onClick={() => navigate("/")}>Imstagram</Imsta>
+        </motion.div>
+        <NavItems>
+          {!login[0] ? (
+            <>
+              <NavItem>
+                <motion.div
+                  transition={spring}
+                  initial={{ x: +200 }}
+                  animate={{ x: 0 }}
+                >
+                  <Button
+                    sx={{ fontFamily: "'kalam', cursive" }}
+                    onClick={() => navigate("login")}
+                    variant="text"
+                  >
                     Login
-                  </Link>
-                </Button>
-              </motion.div>
-            </NavItem>
-            <NavItem>
-              <motion.div
-                transition={spring}
-                initial={{ x: +200 }}
-                animate={{ x: 0 }}
-              >
-                <Button variant="text">
-                  <Link className="link" to="signup">
+                  </Button>
+                </motion.div>
+              </NavItem>
+              <NavItem>
+                <motion.div
+                  transition={spring}
+                  initial={{ x: +200 }}
+                  animate={{ x: 0 }}
+                >
+                  <Button
+                    sx={{ fontFamily: "'kalam', cursive" }}
+                    onClick={() => navigate("/signup")}
+                    variant="text"
+                  >
                     SignUp
-                  </Link>
-                </Button>
-              </motion.div>
-            </NavItem>
-          </>
-        ) : (
-          <>
-            <NavItem>
-              <Link className="link" to="chat">
-                <motion.div
-                  transition={spring}
-                  initial={{ x: +200 }}
-                  animate={{ x: 0 }}
-                  whileHover={{ scale: 1.2 }}
-                >
-                  <BsChat size={30}></BsChat>
+                  </Button>
                 </motion.div>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link className="link" to="user">
-                <motion.div
-                  transition={spring}
-                  initial={{ x: +200 }}
-                  animate={{ x: 0 }}
-                  whileHover={{ scale: 1.2 }}
-                >
-                  <AiOutlineUser size={30}></AiOutlineUser>
-                </motion.div>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link className="link" to="create">
-                <motion.div
-                  transition={spring}
-                  initial={{ x: +200 }}
-                  animate={{ x: 0 }}
-                  whileHover={{ scale: 1.2 }}
-                >
-                  <IoCreateOutline size={30}></IoCreateOutline>
-                </motion.div>
-              </Link>
-            </NavItem>
-          </>
-        )}
-      </NavItems>
-    </Nav>
+              </NavItem>
+            </>
+          ) : (
+            <>
+              <NavItem>
+                <Tooltip title="Chat" placement="bottom">
+                  <motion.div
+                    transition={spring}
+                    initial={{ x: +200 }}
+                    style={{ color: "#90caf9", cursor: "pointer" }}
+                    animate={{ x: 0 }}
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    <BsChat
+                      onClick={() => navigate("/inbox")}
+                      size={30}
+                    ></BsChat>
+                  </motion.div>
+                </Tooltip>
+              </NavItem>
+              <NavItem>
+                <Tooltip title="Profile" placement="bottom">
+                  <motion.div
+                    transition={spring}
+                    initial={{ x: +200 }}
+                    style={{ color: "#90caf9", cursor: "pointer" }}
+                    animate={{ x: 0 }}
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    <AiOutlineUser
+                      onClick={() => navigate("/user")}
+                      size={30}
+                    ></AiOutlineUser>
+                  </motion.div>
+                </Tooltip>
+              </NavItem>
+              <NavItem>
+                <Tooltip title="Create new Post" placement="bottom">
+                  <motion.div
+                    transition={spring}
+                    style={{ color: "#90caf9", cursor: "pointer" }}
+                    initial={{ x: +200 }}
+                    animate={{ x: 0 }}
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    <IoCreateOutline
+                      onClick={() => navigate("/Create")}
+                      size={30}
+                    ></IoCreateOutline>
+                  </motion.div>
+                </Tooltip>
+              </NavItem>
+              <NavItem>
+                <Tooltip title="Logout" placement="bottom">
+                  <motion.div
+                    transition={spring}
+                    initial={{ x: +200 }}
+                    style={{ color: "red", cursor: "pointer" }}
+                    animate={{ x: 0 }}
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    <FiLogOut onClick={() => logout()} size={30}></FiLogOut>
+                  </motion.div>
+                </Tooltip>
+              </NavItem>
+            </>
+          )}
+        </NavItems>
+      </Nav>
+    </>
   );
 };
 
 const Nav = styled(Box)`
   margin: 15px 0;
   display: flex;
+  font-family: "Kalam", cursive;
   justify-content: space-around;
 `;
 
@@ -130,6 +173,7 @@ const Imsta = styled(Box)`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 30px;
+  cursor: pointer;
   .name {
     font-family: "Courgette", cursive;
   }

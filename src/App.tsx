@@ -16,14 +16,14 @@ function App() {
     const getLoginInfo = async () => {
       const isLoggedIn = await loggedInInfo();
       setLogin(isLoggedIn.data.auth);
+      setUserName(isLoggedIn.data.userName);
     };
     getLoginInfo();
   }, []);
-  console.log(login);
   return (
     <>
       <LoginInfo.Provider value={[login, userName]}>
-        {/* <Navbar /> */}
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />

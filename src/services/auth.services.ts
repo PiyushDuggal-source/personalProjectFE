@@ -16,6 +16,7 @@ export const createNewUser = (body: User) => {
 
 interface LoginData {
   data: {
+    userName: string;
     auth: boolean;
   };
 }
@@ -28,4 +29,8 @@ export const loggedInInfo = async (): Promise<LoginData> => {
 
 export const login = (data: LoginInterface) => {
   return axios.post("http://localhost:4000/api/login", data);
+};
+
+export const logoutMe = () => {
+  return axios.get("http://localhost:4000/api/logout");
 };

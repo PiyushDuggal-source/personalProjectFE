@@ -33,3 +33,8 @@ export const validateLoginSchema = yup.object().shape({
 export const validateCommentSchema = yup.object().shape({
   comment: yup.string().required(),
 });
+
+export const validatePostSchema = yup.object().shape({
+  title: yup.string().min(5).max(50),
+  body: yup.string().max(500),
+});
