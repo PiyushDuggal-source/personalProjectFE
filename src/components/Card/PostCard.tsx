@@ -1,44 +1,3 @@
-// import React from "react";
-// import { Card, Image, Text, Badge, Button, Group , useMantineTheme} from '@mantine/core';
-
-// const PostCard = () => {
-// const theme = useMantineTheme();
-//   const secondaryColor = theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7];
-//   return (
-//     <Card sx={{maxWidth: 350}} shadow="sm" p="lg">
-//       <Card.Section component="a" href="https://mantine.dev" target="_blank">
-//         <Image
-//           src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-//           height={160}
-//           alt="Norway"
-//         />
-//         <Image
-//           src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-//           height={160}
-//           alt="Norway"
-//         />
-//       </Card.Section>
-
-//       <Group position="apart" style={{ marginBottom: 5, marginTop: theme.spacing.sm }}>
-//         <Text weight={500}>Norway Fjord Adventures</Text>
-//         <Badge color="pink" variant="light">
-//           On Sale
-//         </Badge>
-//       </Group>
-
-//       <Text size="sm" style={{ color: secondaryColor, lineHeight: 1.5 }}>
-//         With Fjord Tours you can explore more of the magical fjord landscapes with tours and
-//         activities on and around the fjords of Norway
-//       </Text>
-
-//       <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }}>
-//         Book classic tour now
-//       </Button>
-//     </Card>
-//   );
-// };
-
-// export default PostCard;
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -48,25 +7,56 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
+import { Tooltip } from "@mantine/core";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box } from "../../utils";
+import { isLiked } from "../../services/user.service";
 
+import { LoginInfo } from "../../App";
 export type PostData = {
   data: {
+    _id: string;
     userName: string;
     title: string;
     img: string;
     body: string;
-    likes: string;
+    likes: number;
   };
 };
 
 export default function PostCard(prop: PostData) {
+  const [alreadyLiked, setAlreadyLiked] = React.useState<boolean>(false);
+  const [notloggedIn, setNotLoggedIn] = React.useState(false);
+  const [toolTopMsg, setToolTipMsg] = React.useState("Already Liked!");
+  const login = React.useContext(LoginInfo);
+  const liked = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    postId: string,
+    like: number
+  ) => {
+    try {
+      const isPostLiked = await isLiked(postId);
+      const { data } = isPostLiked;
+      if (!data.liked) {
+        const btn = document.getElementById(postId)!;
+        btn.innerText = `${like + 1}`;
+      } else {
+        setAlreadyLiked(true);
+        setTimeout(() => setAlreadyLiked(false), 2000);
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const notLogin = () => {
+    setNotLoggedIn(true);
+    setToolTipMsg("Login To like this Post");
+  };
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: 300, maxWidth: 345, minWidth: 280, margin: "2px 0" }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -87,21 +77,39 @@ export default function PostCard(prop: PostData) {
         alt="Paella dish"
       />
       <CardContent>
-        <Typography variant="h5" component="div">
-          {prop.data.title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {prop.data.body}
-        </Typography>
+        <PostTitle>{prop.data.title}</PostTitle>
+        <PostBody>{prop.data.body}</PostBody>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        <Tooltip
+          label={toolTopMsg}
+          opened={alreadyLiked || notloggedIn}
+          transition="slide-up"
+          transitionDuration={300}
+          transitionTimingFunction="ease"
+        >
+          <IconButton
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              login[0] ? liked(e, prop.data._id, prop.data.likes) : notLogin();
+            }}
+            aria-label="add to favorites"
+          >
+            <FavoriteIcon />
+            <p id={prop.data._id}>{prop.data.likes}</p>
+          </IconButton>
+        </Tooltip>
+        {/* <IconButton aria-label="share"><ShareIcon /></IconButton> */}
       </CardActions>
     </Card>
   );
 }
+
+const PostTitle = styled(Box)`
+  font-size: 20px;
+  word-wrap: break-word;
+`;
+
+const PostBody = styled(Box)`
+  word-wrap: break-word;
+  color: rgba(255, 255, 255, 0.7);
+`;

@@ -21,7 +21,7 @@ const Create = () => {
   const toggle600 = useMatchMedia();
   const [login, setLogin] = useState(false);
   const [, userN] = useContext(LoginInfo);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   useEffect(() => {
     const getLoginInfo = async () => {
       const isLoggedIn = await loggedInInfo();
@@ -41,7 +41,11 @@ const Create = () => {
           navigate("/");
         }
       } catch (err: any) {
-        setError(err.response.data.message);
+        if (err.response.data.message) {
+          setError(err.response.data.message);
+        } else {
+          setError(err.message);
+        }
       }
     },
   });
