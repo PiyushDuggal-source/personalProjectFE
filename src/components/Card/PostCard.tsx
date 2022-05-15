@@ -53,6 +53,9 @@ export default function PostCard(prop: PostData) {
 
   const notLogin = () => {
     setNotLoggedIn(true);
+    setTimeout(() => {
+      setNotLoggedIn(false);
+    }, 2000);
     setToolTipMsg("Login To like this Post");
   };
   return (
@@ -74,6 +77,7 @@ export default function PostCard(prop: PostData) {
         component="img"
         height="194"
         image={prop.data.img}
+        style={{ borderTop: "2px solid #fff", borderBottom: "2px solid #fff" }}
         alt="Paella dish"
       />
       <CardContent>

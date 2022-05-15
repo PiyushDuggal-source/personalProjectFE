@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { getAllPosts } from "../../services/user.service";
 import { Box, MainContainer } from "../../utils";
 import PostCard from "../Card/PostCard";
+import { motion } from "framer-motion";
 // import Spline from "@splinetool/react-spline";
 
 const Home = () => {
@@ -24,13 +25,22 @@ const Home = () => {
     }
   }, []);
 
+  const spring = {
+    type: "",
+    damping: 20,
+    stiffness: 100,
+  };
   return (
     <MainContainer>
-      <PostDisplay>
+      <motion.div
+        initial={{ scale: 0.5 }}
+        transition={spring}
+        animate={{ scale: 1 }}
+      >
         {posts.map((ele, key) => {
           return <PostCard key={key} data={ele} />;
         })}
-      </PostDisplay>
+      </motion.div>
       {/* <Spline scene="https://prod.spline.design/IrwsdsLYHRuhUWuo/scene.splin" /> */}
     </MainContainer>
   );
