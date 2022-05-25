@@ -15,3 +15,11 @@ export const getAllPosts = async () => {
 export const isLiked = async (postId: string) => {
   return axios.get(`http://localhost:4000/api/isLiked/${postId}`);
 };
+
+export const isUser = async (userName: string) => {
+  return axios.get(`http://localhost:4000/api/isUser/${userName}`);
+};
+
+export const getUserData = async (userName: string) => {
+  return axios.get(`http://localhost:4000/api/UserInfo/${userName}`);
+};

@@ -5,12 +5,13 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
+// import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
-import { Tooltip } from "@mantine/core";
+import { Avatar, Group, Tooltip, UnstyledButton } from "@mantine/core";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useNavigate } from "react-router-dom";
 import { Box } from "../../utils";
 import { isLiked } from "../../services/user.service";
 
@@ -30,7 +31,9 @@ export default function PostCard(prop: PostData) {
   const [alreadyLiked, setAlreadyLiked] = React.useState<boolean>(false);
   const [notloggedIn, setNotLoggedIn] = React.useState(false);
   const [toolTopMsg, setToolTipMsg] = React.useState("Already Liked!");
+  const navigate = useNavigate();
   const login = React.useContext(LoginInfo);
+
   const liked = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     postId: string,
@@ -62,16 +65,25 @@ export default function PostCard(prop: PostData) {
     <Card sx={{ width: 300, maxWidth: 345, minWidth: 280, margin: "2px 0" }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {prop.data.userName[0].toUpperCase()}
-          </Avatar>
+          // <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          //   {prop.data.userName[0].toUpperCase()}
+          // </Avatar>
+          <UnstyledButton onClick={() => navigate(`${prop.data.userName}`)}>
+            <Group>
+              <Avatar size={40} color="blue">
+                {prop.data.userName[0].toUpperCase()}
+              </Avatar>
+              <div>
+                <>{prop.data.userName}</>
+              </div>
+            </Group>
+          </UnstyledButton>
         }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={prop.data.userName}
       />
       <CardMedia
         component="img"

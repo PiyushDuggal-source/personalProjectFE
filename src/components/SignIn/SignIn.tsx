@@ -47,12 +47,15 @@ export default function SignIn() {
     onSubmit: async (data) => {
       try {
         const user = await login(data);
+        if (user.data.error) {
+          setError(user.data.error);
+          return;
+        }
         if (user.data.login) {
           window.location.href = "/";
         }
       } catch (error: any) {
         setError(error.response.data.error);
-        console.log(error.response.data.error);
       }
     },
   });

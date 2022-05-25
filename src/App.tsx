@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Create from "./components/Create/Create";
 import Home from "./components/Home/Home";
 import Navbar from "./components/NavBar/Navbar";
+import Profile from "./components/Profile/Profile";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/Signup";
 import { loggedInInfo } from "./services/auth.services";
@@ -27,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/:userName" element={<Profile />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/create" element={<Create />} />
         </Routes>

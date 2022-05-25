@@ -27,14 +27,13 @@ const Home = () => {
 
   const spring = {
     type: "",
-    damping: 20,
-    stiffness: 100,
+    stiffness: -300,
   };
   return (
     <MainContainer>
       <motion.div
         initial={{ scale: 0.5 }}
-        transition={spring}
+        transition={{ type: "spring" }}
         animate={{ scale: 1 }}
       >
         {posts.map((ele, key) => {
