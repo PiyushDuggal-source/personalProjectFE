@@ -14,10 +14,13 @@ import Container from "@mui/material/Container";
 import { useFormik } from "formik";
 import { loginInitialValues } from "../../ValidateSchema&InitialValues/initialValues";
 import { validateLoginSchema } from "../../ValidateSchema&InitialValues/validateSchemas";
-import { login } from "../../services/auth.services";
-import { Alert } from "@mantine/core";
+import { login, logoutMe } from "../../services/auth.services";
+import { Alert, Loader } from "@mantine/core";
 import { BiErrorAlt } from "react-icons/bi";
 import { motion } from "framer-motion";
+import { LoginInfo } from "../../App";
+import { MainContainer } from "../../utils";
+import styled from "styled-components";
 
 function Copyright(props: any) {
   return (
@@ -39,6 +42,8 @@ function Copyright(props: any) {
 
 export default function SignIn() {
   const [error, setError] = React.useState<string>();
+  const logIn = React.useContext(LoginInfo);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   const formik = useFormik({
     initialValues: loginInitialValues,
@@ -47,22 +52,29 @@ export default function SignIn() {
     onSubmit: async (data) => {
       try {
         const user = await login(data);
+        if (user.data.error) {
+          setError(user.data.error);
+          return;
+        }
         if (user.data.login) {
           window.location.href = "/";
         }
       } catch (error: any) {
         setError(error.response.data.error);
-        console.log(error.response.data.error);
       }
     },
   });
-
+  React.useEffect(() => {
+    if (logIn[0]) {
+      setLoading(false);
+    }
+  }, [logIn]);
   const spring = {
     type: "spring",
     damping: 20,
     stiffness: 100,
   };
-  return (
+  return !logIn[0] ? (
     <motion.div
       initial={{ scale: 0.5 }}
       transition={spring}
@@ -153,5 +165,39 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </motion.div>
+  ) : loading ? (
+    <>
+      <MainContainer>
+        <Loader />
+      </MainContainer>
+    </>
+  ) : (
+    <>
+      <MainContainer
+        style={{
+          transform: "translate(-50%, -50%)",
+          left: "50%",
+          top: "50%",
+          position: "absolute",
+          flexDirection: "column",
+        }}
+      >
+        You are logged In, Please log out First
+        <Click
+          onClick={() => {
+            logoutMe();
+            window.location.href = "/signin";
+          }}
+        >
+          LogOut
+        </Click>
+      </MainContainer>
+    </>
   );
 }
+
+const Click = styled.div`
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+`;
