@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { BiErrorAlt } from "react-icons/bi";
 import Typography from "@mui/material/Typography";
-import { Alert } from "@mantine/core";
+import { Alert, Loader } from "@mantine/core";
 import Container from "@mui/material/Container";
 import { useFormik } from "formik";
 import { IconButton, MenuItem } from "@mui/material";
@@ -50,12 +50,12 @@ export default function SignUp() {
   const navigate = useNavigate();
   const toggle600 = useMatchMedia();
 
+  const [loading, setLoading] = useState<boolean>(true);
   React.useEffect(() => {
     if (login[0]) {
-      // navigate("/");
+      setLoading(false);
     }
   }, [login]);
-
   const formik = useFormik({
     initialValues: signUpInitialValues,
     validationSchema: validateSignUpSchema,
@@ -277,6 +277,12 @@ export default function SignUp() {
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </motion.div>
+  ) : loading ? (
+    <>
+      <MainContainer>
+        <Loader />
+      </MainContainer>
+    </>
   ) : (
     <>
       <MainContainer

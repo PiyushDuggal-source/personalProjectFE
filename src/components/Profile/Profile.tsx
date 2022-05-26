@@ -82,9 +82,6 @@ const Profile = () => {
         <Hr />
         <>
           <motion.div
-            // initial={{ scale: 0.7 }}
-            // transition={{ type: "spring" }}
-            // animate={{ scale: 1 }}
             animate={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 100 }}
             exit={{ opacity: 0, y: -20 }}
