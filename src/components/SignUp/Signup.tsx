@@ -22,6 +22,7 @@ import { omit } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { LoginInfo } from "../../App";
 import { motion } from "framer-motion";
+import useMatchMedia from "../../hooks/useMatchMedia";
 
 function Copyright(props: any) {
   return (
@@ -46,6 +47,8 @@ export default function SignUp() {
   console.log(login);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+  const toggle600 = useMatchMedia();
+
   const formik = useFormik({
     initialValues: signUpInitialValues,
     validationSchema: validateSignUpSchema,
@@ -116,6 +119,11 @@ export default function SignUp() {
           </Typography>
           <Box
             component="form"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
             noValidate
             onSubmit={formik.handleSubmit}
             sx={{ mt: 3 }}
@@ -124,6 +132,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
+                  autoFocus
                   name="userName"
                   required
                   fullWidth
@@ -153,7 +162,6 @@ export default function SignUp() {
                   helperText={
                     formik.touched.firstName && formik.errors.firstName
                   }
-                  autoFocus
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -223,7 +231,7 @@ export default function SignUp() {
               <Grid item>
                 <TextField
                   required
-                  sx={{ margin: 1, width: 400 }}
+                  sx={{ margin: 1, width: toggle600 ? 370 : 400 }}
                   select
                   label="Gender"
                   fullWidth

@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Box } from "../../utils";
 import { BsChat } from "react-icons/bs";
@@ -12,10 +11,13 @@ import { LoginInfo } from "../../App";
 import { logoutMe } from "../../services/auth.services";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
+import useMatchMedia from "../../hooks/useMatchMedia";
 
 const Navbar = () => {
   const login = useContext(LoginInfo);
   const navigate = useNavigate();
+  const toggle600 = useMatchMedia();
+
   const logout = async () => {
     try {
       const islogout = await logoutMe();
@@ -91,7 +93,7 @@ const Navbar = () => {
                   >
                     <BsChat
                       onClick={() => navigate("/inbox")}
-                      size={30}
+                      size={toggle600 ? 28 : 30}
                     ></BsChat>
                   </motion.div>
                 </Tooltip>
@@ -107,7 +109,7 @@ const Navbar = () => {
                   >
                     <AiOutlineUser
                       onClick={() => navigate(`${login[1]}`)}
-                      size={30}
+                      size={toggle600 ? 28 : 30}
                     ></AiOutlineUser>
                   </motion.div>
                 </Tooltip>
@@ -123,7 +125,7 @@ const Navbar = () => {
                   >
                     <IoCreateOutline
                       onClick={() => navigate("/Create")}
-                      size={30}
+                      size={toggle600 ? 28 : 30}
                     ></IoCreateOutline>
                   </motion.div>
                 </Tooltip>
@@ -137,7 +139,10 @@ const Navbar = () => {
                     animate={{ x: 0 }}
                     whileHover={{ scale: 1.2 }}
                   >
-                    <FiLogOut onClick={() => logout()} size={30}></FiLogOut>
+                    <FiLogOut
+                      onClick={() => logout()}
+                      size={toggle600 ? 28 : 30}
+                    ></FiLogOut>
                   </motion.div>
                 </Tooltip>
               </NavItem>
@@ -164,6 +169,9 @@ const NavItems = styled(Box)`
 
 const NavItem = styled(Box)`
   margin: 0 0.8rem;
+  @media (max-width: 600px) {
+    margin: 0 0.6rem;
+  }
 `;
 
 const Imsta = styled(Box)`
@@ -176,6 +184,9 @@ const Imsta = styled(Box)`
   cursor: pointer;
   .name {
     font-family: "Courgette", cursive;
+  }
+  @media (max-width: 600px) {
+    font-size: 24px;
   }
 `;
 export default Navbar;
