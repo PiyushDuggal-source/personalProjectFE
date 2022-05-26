@@ -30,3 +30,15 @@ export const Hr = styled.hr`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 `;
+export const CenteredDiv = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+export const Heading = styled.div`
+  font-size: ${(props: { size: number }) => props.size}px;
+`;
+
+export const Anchor = styled.a``;

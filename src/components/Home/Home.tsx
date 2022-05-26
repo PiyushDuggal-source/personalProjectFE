@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getAllPosts } from "../../services/user.service";
-import { MainContainer } from "../../utils";
+import { CenteredDiv, MainContainer } from "../../utils";
 import PostCard from "../Card/PostCard";
 import { motion } from "framer-motion";
 import { BiErrorAlt } from "react-icons/bi";
-import { Alert } from "@mantine/core";
+import { Alert, Loader } from "@mantine/core";
 // import Spline from "@splinetool/react-spline";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     try {
       const getPost = async () => {
@@ -19,6 +20,7 @@ const Home = () => {
         } else {
           setPosts(post.data.post);
         }
+        setLoading(false);
       };
       getPost();
     } catch (err: any) {
@@ -26,7 +28,11 @@ const Home = () => {
     }
   }, []);
 
-  return (
+  return loading ? (
+    <CenteredDiv>
+      <Loader />
+    </CenteredDiv>
+  ) : (
     <MainContainer>
       {error && (
         <Alert

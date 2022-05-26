@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
 import { Box, Img, MainContainer } from "../../utils";
@@ -7,6 +6,7 @@ import { Button, Tooltip } from "@mantine/core";
 import useMatchMedia from "../../hooks/useMatchMedia";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export type ProfileProp = {
   data: {
@@ -27,6 +27,7 @@ const spring = {
 };
 const ProfileCard = (prop: ProfileProp) => {
   const toggle600 = useMatchMedia();
+  const navigate = useNavigate();
   return (
     <motion.div
       initial={{ scale: 0.7 }}
@@ -64,6 +65,7 @@ const ProfileCard = (prop: ProfileProp) => {
             style={{ marginTop: 10 }}
             variant="outline"
             rightIcon={<MdOutlineEdit size={14} />}
+            onClick={() => navigate("/edit")}
           >
             Edit Your Profile
           </Button>

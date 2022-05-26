@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { Box } from "../../utils";
 import { BsChat } from "react-icons/bs";
@@ -93,7 +93,7 @@ const Navbar = () => {
                   >
                     <BsChat
                       onClick={() => navigate("/inbox")}
-                      size={toggle600 ? 28 : 30}
+                      size={toggle600 ? 24 : 30}
                     ></BsChat>
                   </motion.div>
                 </Tooltip>
@@ -109,7 +109,7 @@ const Navbar = () => {
                   >
                     <AiOutlineUser
                       onClick={() => navigate(`${login[1]}`)}
-                      size={toggle600 ? 28 : 30}
+                      size={toggle600 ? 24 : 30}
                     ></AiOutlineUser>
                   </motion.div>
                 </Tooltip>
@@ -125,7 +125,7 @@ const Navbar = () => {
                   >
                     <IoCreateOutline
                       onClick={() => navigate("/Create")}
-                      size={toggle600 ? 28 : 30}
+                      size={toggle600 ? 24 : 30}
                     ></IoCreateOutline>
                   </motion.div>
                 </Tooltip>
@@ -141,7 +141,7 @@ const Navbar = () => {
                   >
                     <FiLogOut
                       onClick={() => logout()}
-                      size={toggle600 ? 28 : 30}
+                      size={toggle600 ? 24 : 30}
                     ></FiLogOut>
                   </motion.div>
                 </Tooltip>

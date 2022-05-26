@@ -186,7 +186,7 @@ export default function SignIn() {
         <Click
           onClick={() => {
             logoutMe();
-            window.location.href = "/signup";
+            window.location.href = "/signin";
           }}
         >
           LogOut
