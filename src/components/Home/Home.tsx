@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { getAllPosts } from "../../services/user.service";
-import { Box, MainContainer } from "../../utils";
+import { MainContainer } from "../../utils";
 import PostCard from "../Card/PostCard";
 import { motion } from "framer-motion";
+import { BiErrorAlt } from "react-icons/bi";
+import { Alert } from "@mantine/core";
 // import Spline from "@splinetool/react-spline";
 
 const Home = () => {
@@ -25,12 +26,19 @@ const Home = () => {
     }
   }, []);
 
-  const spring = {
-    type: "",
-    stiffness: -300,
-  };
   return (
     <MainContainer>
+      {error && (
+        <Alert
+          icon={<BiErrorAlt size={16} />}
+          title="Bummer!"
+          color="red"
+          radius="md"
+          variant="outline"
+        >
+          {error}
+        </Alert>
+      )}
       <motion.div
         initial={{ scale: 0.5 }}
         transition={{ type: "spring" }}
@@ -45,5 +53,4 @@ const Home = () => {
   );
 };
 
-const PostDisplay = styled(Box)``;
 export default Home;

@@ -17,12 +17,14 @@ import { signUpInitialValues } from "../../ValidateSchema&InitialValues/initialV
 import { validateSignUpSchema } from "../../ValidateSchema&InitialValues/validateSchemas";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-import { createNewUser } from "../../services/auth.services";
+import { createNewUser, logoutMe } from "../../services/auth.services";
 import { omit } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { LoginInfo } from "../../App";
 import { motion } from "framer-motion";
 import useMatchMedia from "../../hooks/useMatchMedia";
+import { MainContainer } from "../../utils";
+import styled from "styled-components";
 
 function Copyright(props: any) {
   return (
@@ -44,10 +46,15 @@ function Copyright(props: any) {
 
 export default function SignUp() {
   const login = React.useContext(LoginInfo);
-  console.log(login);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const toggle600 = useMatchMedia();
+
+  React.useEffect(() => {
+    if (login[0]) {
+      // navigate("/");
+    }
+  }, [login]);
 
   const formik = useFormik({
     initialValues: signUpInitialValues,
@@ -84,7 +91,7 @@ export default function SignUp() {
     damping: 20,
     stiffness: 100,
   };
-  return (
+  return !login[0] ? (
     <motion.div
       initial={{ scale: 0.5 }}
       transition={spring}
@@ -270,5 +277,33 @@ export default function SignUp() {
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </motion.div>
+  ) : (
+    <>
+      <MainContainer
+        style={{
+          transform: "translate(-50%, -50%)",
+          left: "50%",
+          top: "50%",
+          position: "absolute",
+          flexDirection: "column",
+        }}
+      >
+        You are logged In, Please log out to Sign Up
+        <Click
+          onClick={() => {
+            logoutMe();
+            window.location.href = "/signup";
+          }}
+        >
+          LogOut
+        </Click>
+      </MainContainer>
+    </>
   );
 }
+
+const Click = styled.div`
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+`;

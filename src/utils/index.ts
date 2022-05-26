@@ -17,3 +17,16 @@ export const Grid = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
+
+export const Hr = styled.hr`
+  /* width: 80%;
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #333, #ccc, #333); */
+  border: 0;
+  width: 80%;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+`;

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Img, MainContainer } from "../../utils";
+import { useEffect, useState } from "react";
+import { Grid, Hr, MainContainer } from "../../utils";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 import { getUserData, isUser } from "../../services/user.service";
-import ProfileCard, { ProfileProp } from "./ProfileCard";
+import ProfileCard from "./ProfileCard";
 import { useContext } from "react";
 import { LoginInfo } from "../../App";
 import ProfilePosts from "./ProfilePosts";
+import { Loader } from "@mantine/core";
+import { motion } from "framer-motion";
 
 type PostData = {
   firstName: string;
@@ -15,6 +16,12 @@ type PostData = {
   showEdit: boolean;
   gender: string;
   imageUrl: string;
+  likes: number;
+};
+
+type UserPostData = {
+  img: string;
+  title: string;
   likes: number;
 };
 
@@ -30,30 +37,68 @@ const Profile = () => {
     likes: 0,
     userName: "",
   });
+  const [userPosts, setUserPosts] = useState<UserPostData[]>([
+    {
+      img: "",
+      title: "",
+      likes: 0,
+    },
+  ]);
   const [, loggedInUser] = useContext(LoginInfo);
-  const [showEdit, setShowEdit] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
-      const isuser = await isUser(userName as string);
       const userData = await getUserData(userName as string);
+
       const likePoint = userData.data.likePoints;
+
+      const isuser = await isUser(userName as string);
       const { data } = isuser;
-      // if (!data.exists) {
-      //   setShow(false);
-      // }
+      console.log(data);
+      if (!data.exists) {
+        setShow(false);
+        return;
+      }
       setUser({
         ...userData.data.userData,
         likes: likePoint,
-        showEdit: (loggedInUser as string) == (userName as string),
+        showEdit: (loggedInUser as string) === (userName as string),
       });
+      setUserPosts(userData.data.posts);
+      setLoading(false);
     })();
-  }, []);
+  }, [userName, loggedInUser]);
   return show ? (
-    <MainContainer style={{ flexDirection: "column" }}>
-      <ProfileCard data={user}></ProfileCard>
-      <ProfilePosts></ProfilePosts>
-    </MainContainer>
+    loading ? (
+      <>
+        <MainContainer>
+          <Loader />
+        </MainContainer>
+      </>
+    ) : (
+      <MainContainer style={{ flexDirection: "column" }}>
+        <ProfileCard data={user} />
+        <Hr />
+        <>
+          <motion.div
+            // initial={{ scale: 0.7 }}
+            // transition={{ type: "spring" }}
+            // animate={{ scale: 1 }}
+            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 100 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.45 }}
+          >
+            <Grid gap="1rem">
+              {userPosts.map((userPost: UserPostData, index: number) => (
+                <ProfilePosts data={userPost} key={index} />
+              ))}
+            </Grid>
+          </motion.div>
+        </>
+      </MainContainer>
+    )
   ) : (
     <>
       <MainContainer>
@@ -62,6 +107,5 @@ const Profile = () => {
     </>
   );
 };
-const ProfilePic = styled(Img)``;
 
 export default Profile;
